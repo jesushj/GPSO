@@ -60,14 +60,16 @@ while i < it
     end
     
     if min(Fnew) < Fmin
-        [~, index] = min(Fnew);
+        [Fmin, index] = min(Fnew);
         G = X(:,index);
-        %L = OptimizacionGradiente(G',name,lim(:,2),lim(:,1));
-        %Fmin = feval(name,L);
-        [L,Fmin]=fmincon(name,G',[],[],[],[],lim(:,1),lim(:,2),[],options);
-        %[L,Fmin]=fminunc(name,G',options);
-        G = L';
-        X(:,index) = L';
+        if mod(i,5) == 0
+            %L = OptimizacionGradiente(G',name,lim(:,2),lim(:,1));
+            %Fmin = feval(name,L);
+            [L,Fmin]=fmincon(name,G',[],[],[],[],lim(:,1),lim(:,2),[],options);
+            %[L,Fmin]=fminunc(name,G',options);
+            G = L';
+            X(:,index) = L';
+        end
         err = abs(Fmin-opt);
         if err < errmax
             break
