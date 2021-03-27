@@ -13,8 +13,9 @@ opt = 0;
 % Cada fila es una variable, col1 limite inf, col 2 lim sup
 lim = [-10, 10; -10, 10];
 for i=1:100
+    erro
 [Fmin, G, it, err] = PSO_grad(name,lim,N,it,opt,errmax);
-err=[err err]
-llamadasgrad=llamadas;
+errgrad=[err err];
+llamadasgrad=[llamadas llamadas];
 end
 
