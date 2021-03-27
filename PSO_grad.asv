@@ -1,0 +1,72 @@
+clear; clc; close all;
+
+N = 10;
+it = 200;
+alpha = 1.5;
+beta = 2.5;
+theta = 0.05;
+acc = 0.0001;
+
+% Cada fila es una variable, col1 limite inf, col 2 lim sup
+Xlim = [-512, 512; -512, 512];
+
+X = zeros(2,N);
+F = zeros(1,N);
+Fnew = zeros(1,N);
+V = zeros(2,N);
+
+name = 'funcion';
+
+for i = 1:N
+    
+    X(1,i) = rand(1)*(Xlim(1,2)-Xlim(1,1))+Xlim(1,1);
+    X(2,i) = rand(1)*(Xlim(2,2)-Xlim(2,1))+Xlim(2,1);
+    F(i) = funcion([X(1,i),X(2,i)]);
+    
+end
+
+[~, index] = min(F);
+G = X(:,index);
+P = X;
+
+L = OptimizacionGradiente(G',name,Xlim(:,1),Xlim(2,:));  
+Fmin = funcion(L);
+
+Fplot = Fmin;
+
+i = 0;
+while i < it
+    
+    i = i+1;
+    for j = 1:N
+        
+        V(:,j) = acc*V(:,j) + alpha*rand(size(X(:,j))).*(G-X(:,j)) + beta*rand(size(X(:,j))).*(P(:,j)-X(:,j));
+        X(:,j) = X(:,j) + V(:,j);
+        
+        if (X(1,j) < Xlim(1,2)) && (X(1,j) > Xlim(1,1)) && (X(2,j) < Xlim(2,2)) && (X(2,j) > Xlim(2,1))
+            Fnew(j) = feval(name,[X(1,j),X(2,j)]);
+            %Fnew(j) = funcion([X(1,j),X(2,j)]);
+        else
+            Fnew(j) = 20000000000;
+        end
+        
+        if Fnew(j) < F(j)
+            P(:,j) = X(:,j);
+        end
+        
+    end
+    
+    if min(Fnew) < Fmin
+        [~, index] = min(Fnew);
+        G = X(:,index);
+        L = OptimizacionGradiente(G',name,Xlim(1,:),Xlim(2,:));
+        Fmin = L;
+    end
+    
+    F = Fnew;
+    Fplot = [Fplot Fmin];
+    plot(Fplot);
+    drawnow
+    disp(Fmin);
+    
+end
