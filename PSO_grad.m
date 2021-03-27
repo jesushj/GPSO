@@ -1,4 +1,5 @@
 function [Fmin, G, it_tot, err] = PSO_grad(name,lim,N,it,opt,errmax)
+options=optimoptions('fmincon','OptimalityTolerance',1e-4,'StepTolerance',1e-4,'MaxFunctionEvaluations',10);
 
 alpha = 1.5;
 beta = 2.5;
@@ -23,8 +24,12 @@ end
 G = X(:,index);
 P = X;
 
-L = OptimizacionGradiente(G',name,lim(:,2)',lim(:,1)');  
-Fmin = feval(name,L);
+%L = OptimizacionGradiente(G',name,lim(:,2)',lim(:,1)');  
+%Fmin = feval(name,L);
+
+[L,Fmin]=fmincon(name,G',[],[],[],[],lim(:,1),lim(:,2),[],options);
+
+
 X(:,index) = L';
 G = L';
 
@@ -55,8 +60,9 @@ while i < it
     if min(Fnew) < Fmin
         [~, index] = min(Fnew);
         G = X(:,index);
-        L = OptimizacionGradiente(G',name,lim(:,2),lim(:,1));
-        Fmin = feval(name,L);
+        %L = OptimizacionGradiente(G',name,lim(:,2),lim(:,1));
+        %Fmin = feval(name,L);
+        [L,Fmin]=fmincon(name,G',[],[],[],[],lim(:,1),lim(:,2),[],options);
         G = L';
         X(:,index) = L';
         err = abs(Fmin-opt);

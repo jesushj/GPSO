@@ -1,5 +1,6 @@
 function [y] = booth(xx)
-
+global llamadas
+llamadas = llamadas + 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % BOOTH FUNCTION

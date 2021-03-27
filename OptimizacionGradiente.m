@@ -1,6 +1,6 @@
 function optimo = OptimizacionGradiente(pos,name,limitsUpper,limitsLower)
 MaxIter=1000;
-Tol=1e-2;
+Tol=1e-3;
 step=1;  %initial step
 k=1;    %Iter counter
 error=10; %Initial error
