@@ -35,6 +35,8 @@ G = L';
 
 Fplot = Fmin;
 
+err = abs(Fmin-opt);
+
 i = 0;
 while i < it
     
