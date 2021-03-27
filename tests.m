@@ -1,14 +1,14 @@
 clear; clc;
 global llamadas
 llamadas = 0;
-N = 30;
-it = 100;
+N = 20;
+it = 40;
 alpha = 1.5;
 beta = 2.5;
-acc = 0.01;
-name = 'camel6';
-errmax = 1e-5;
-opt = -1.0316;  %-1.0316 camel
+acc = 0.001;
+name = 'levy';
+errmax = 1e-3;
+opt = 0;  %-1.0316 camel
 errgrad=0;
 llamadasgrad=0;
 errpso=0;
