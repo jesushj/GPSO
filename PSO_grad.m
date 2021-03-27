@@ -1,5 +1,5 @@
 function [Fmin, G, it_tot, err] = PSO_grad(name,lim,N,it,opt,errmax)
-options=optimoptions('fmincon','OptimalityTolerance',1e-4,'StepTolerance',1e-4,'MaxFunctionEvaluations',20);
+options=optimoptions('fmincon','OptimalityTolerance',1e-4,'StepTolerance',1e-4,'MaxFunctionEvaluations',7);
 
 alpha = 1.5;
 beta = 2.5;
