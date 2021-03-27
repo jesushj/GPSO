@@ -1,21 +1,38 @@
 clear; clc;
 global llamadas
 llamadas = 0;
-N = 20;
+N = 30;
 it = 100;
 alpha = 1.5;
 beta = 2.5;
 acc = 0.01;
-name = 'levy';
-errmax = 1e-2;
-opt = 0;
-
+name = 'camel6';
+errmax = 1e-4;
+opt = -1.0316;  %-1.0316 camel
+errgrad=0;
+llamadasgrad=0;
+errpso=0;
+llamadaspso=0;
 % Cada fila es una variable, col1 limite inf, col 2 lim sup
-lim = [-10, 10; -10, 10];
-for i=1:100
-    erro
-[Fmin, G, it, err] = PSO_grad(name,lim,N,it,opt,errmax);
-errgrad=[err err];
-llamadasgrad=[llamadas llamadas];
-end
+lim = [-1, 600; -600, 600];
+for i=1:200
+llamadas=0;
+[Fmin, G, it, err] = PSO(name,lim,N,it,opt,errmax);
+errpso=[errpso err];
+llamadaspso=[llamadaspso llamadas];
 
+llamadas=0;
+
+[Fmin, G, it, err] = PSO_grad(name,lim,N,it,opt,errmax);
+errgrad=[errgrad err];
+llamadasgrad=[llamadasgrad llamadas];
+
+end
+figure(1)
+plot(llamadasgrad,errgrad,'*')
+figure(2)
+plot(llamadaspso,errpso,'o')
+mean(llamadasgrad)
+mean(llamadaspso)
+mean(errgrad)
+mean(errpso)

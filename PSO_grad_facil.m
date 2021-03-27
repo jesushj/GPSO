@@ -19,7 +19,7 @@ end
 [Fmin, index] = min(F);
 G = X(:,index);
 P = X;
-
+err = abs(Fmin-opt);
 i = 0;
 while i < it
     

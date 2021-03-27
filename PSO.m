@@ -2,7 +2,7 @@ function [Fmin, G, it_tot, err] = PSO(name,lim,N,it,opt,errmax)
 
 alpha = 1.5;
 beta = 2.5;
-acc = 0.01;
+acc = 0.001;
 % Cada fila es una variable, col1 limite inf, col 2 lim sup
 
 X = zeros(2,N);
@@ -20,7 +20,7 @@ G = X(:,index);
 P = X;
 
 Fplot = Fmin;
-
+err = abs(Fmin-opt);
 
 i = 0;
 while i < it
