@@ -1,19 +1,20 @@
-function [Fmin, G, it_tot, err] = PSO(name,lim,N,it,opt,errmax)
+function [Fmin, G, it_tot, err] = PSO(name,lim,N,it,acc,alpha,beta,opt,errmax)
 
-alpha = 1.5;
-beta = 2.5;
-acc = 0.001;
+
 % Cada fila es una variable, col1 limite inf, col 2 lim sup
 
-X = zeros(2,N);
+[D,~] = size(lim);
+
+X = zeros(D,N);
 F = zeros(1,N);
 Fnew = zeros(1,N);
-V = zeros(2,N);
+V = zeros(D,N);
 
 for i = 1:N
-    X(1,i) = rand(1)*(lim(1,2)-lim(1,1))+lim(1,1);
-    X(2,i) = rand(1)*(lim(2,2)-lim(2,1))+lim(2,1);
-    F(i) = feval(name,[X(1,i),X(2,i)]);
+    for j = 1:D
+        X(j,i) = rand(1)*(lim(j,2)-lim(j,1))+lim(j,1);
+    end
+    F(i) = feval(name,X(:,i));
 end
 [Fmin, index] = min(F);
 G = X(:,index);
@@ -32,9 +33,13 @@ while i < it
         X(:,j) = X(:,j) + V(:,j);
         
         %%%%%%%%%%%%%%%%%%%%%%
-        
-        if (X(1,j) < lim(1,2)) && (X(1,j) > lim(1,1)) && (X(2,j) < lim(2,2)) && (X(2,j) > lim(2,1))
-            Fnew(j) = feval(name,[X(1,j),X(2,j)]);
+        range = true;
+        for k = 1:D
+            range = X(k,j) < lim(k,2) && X(k,j) > lim(k,1);
+            range = range && range;
+        end
+        if range
+            Fnew(j) = feval(name,X(:,j));
         else
             Fnew(j) = 20000000000;
         end
@@ -52,10 +57,10 @@ while i < it
     end
     
     F = Fnew;
-%     Fplot = [Fplot Fmin];
-%     plot(Fplot);
-%     drawnow
-%     disp(Fmin);
+    Fplot = [Fplot Fmin];
+    plot(Fplot);
+    drawnow
+    disp(Fmin);
 end
 it_tot = i;
 end
