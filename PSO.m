@@ -28,8 +28,8 @@ while i < it
     
     i = i+1;
     for j = 1:N
-        
-        V(:,j) = acc*V(:,j) + alpha*rand(size(X(:,j))).*(G-X(:,j)) + beta*rand(size(X(:,j))).*(P(:,j)-X(:,j));
+        %V(:,j) = acc*V(:,j) + alpha*rand(size(X(:,j))).*(G-X(:,j)) + beta*rand(size(X(:,j))).*(P(:,j)-X(:,j));
+        V(:,j) = (acc-(acc-0.0001)*(i/it))*V(:,j) + alpha*rand(size(X(:,j))).*(G-X(:,j)) + beta*rand(size(X(:,j))).*(P(:,j)-X(:,j));
         X(:,j) = X(:,j) + V(:,j);
         
         %%%%%%%%%%%%%%%%%%%%%%
@@ -62,5 +62,7 @@ while i < it
     drawnow
     disp(Fmin);
 end
+
 it_tot = i;
+
 end
