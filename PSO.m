@@ -58,9 +58,9 @@ while i < it
     
     F = Fnew;
     Fplot = [Fplot Fmin];
-    plot(Fplot);
-    drawnow
-    disp(Fmin);
+%     plot(Fplot);
+%     drawnow
+%     disp(Fmin);
 end
 
 it_tot = i;
